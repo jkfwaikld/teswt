@@ -1,0 +1,47 @@
+{
+  "entities": {
+    "Driver": {
+      "title": "Driver",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "mobile": { "type": "string" },
+        "status": { "type": "string", "enum": ["present", "absent", "leave"] },
+        "lastMarkedDate": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "mobile"]
+    },
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "driverId": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["present", "absent", "leave"] },
+        "markedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "driverId", "date", "status"]
+    }
+  },
+  "auth": {
+    "providers": ["anonymous", "password"]
+  },
+  "firestore": {
+    "/roles_admin/{adminId}": {
+      "schema": "object",
+      "description": "Admin role registry"
+    },
+    "/drivers/{driverId}": {
+      "schema": { "$ref": "#/backend/entities/Driver" },
+      "description": "Driver profiles"
+    },
+    "/drivers/{driverId}/attendanceRecords/{recordId}": {
+      "schema": { "$ref": "#/backend/entities/AttendanceRecord" },
+      "description": "History of daily attendance"
+    }
+  }
+}

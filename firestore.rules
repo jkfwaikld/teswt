@@ -1,0 +1,30 @@
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Checks if the request is from an authenticated user.
+     * All users are allowed access for this project phase.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * @description Allow all authenticated users (including anonymous) to manage drivers and attendance.
+     */
+    match /drivers/{driverId} {
+      allow read, write: if isSignedIn();
+      
+      match /attendanceRecords/{recordId} {
+        allow read, write: if isSignedIn();
+      }
+    }
+
+    // Keep registry for backwards compatibility but allow access
+    match /roles_admin/{adminId} {
+      allow read, write: if isSignedIn();
+    }
+  }
+}
