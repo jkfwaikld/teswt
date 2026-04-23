@@ -1,6 +1,17 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
+  import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  output: 'export',          // Tells Next.js to build static files
+  basePath: '/teswt',        // Matches your GitHub repo name
+  images: {
+    unoptimized: true,       // Required because GitHub Pages can't process images
+  },
+};
+
+export default nextConfig;
 output: 'standalone', // <--- Add this line
   typescript: {
     ignoreBuildErrors: true,
